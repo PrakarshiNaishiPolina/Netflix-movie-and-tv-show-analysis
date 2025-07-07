@@ -62,4 +62,53 @@ plot4<-netflix %>%
 
 ggsave("top 10 genres.png",plot=plot4,width=6,height=4,dpi=300)
 
+# Top Countries producing content
+
+plot5<-netflix %>%filter(!is.na(country))%>%separate_rows(country,sep=",")%>%
+  count(country,sort=TRUE) %>%
+  top_n(10) %>%
+  ggplot(aes(x=reorder(country,n),y=n))+
+  geom_col(fill="orange")+
+  coord_flip()+
+  labs(title="Top 10 Countries Producing Netflix Content",x="Country",y="Count")+
+  theme_minimal()
+
+ggsave("top 10 countries.png",plot=plot5,width=6,height=4,dpi=300)
+
+# Movie Duration Distribution
+
+plot6<-netflix %>% filter(type=="Movie")%>%
+  mutate(duration_num=as.numeric(str_remove(duration," min")))%>%
+  ggplot(aes(x=duration_num))+
+  geom_histogram(fill="darkgreen",bins=30)+
+  labs(title="Distribution of Movie Durations",x="Duration(minutes)",y="Count")+
+  theme_minimal()
+
+ggsave("movie duration distribution.png",plot=plot6,width=6,height=4,dpi=300)
+
+# TV Shows by Number of Seasons
+
+plot7<-netflix%>% filter(type=="TV Show")%>%mutate(seasons=as.numeric(str_remove(duration," Season[s]?")))%>%
+  count(seasons)%>%
+  filter(!is.na(seasons)) %>%
+  ggplot(aes(x=seasons,y=n))+
+  geom_col(fill="hotpink")+
+  labs(title="Number of TV Shows by Season Count",x="Seasons",y="Count")+
+  theme_minimal()
+
+ggsave("tv shows by number of seasons.png",plot=plot7,width=6,height=4,dpi=300)
+
+# Top 10 Directors
+
+plot8<-netflix %>%filter(!is.na(director))%>%
+  separate_rows(director,sep=", ")%>%
+  count(director,sort=TRUE)%>%
+  top_n(10)%>%
+  ggplot(aes(x=reorder(director,n),y=n))+
+  geom_col(fill="steelblue")+
+  coord_flip()+
+  labs(title="Top 10 Directors on Netflix",x="Director",y="Count")+
+  theme_minimal()
+
+ggsave("top 10 directors.png",plot=plot8,width=6,height=4,dpi=300)
 
