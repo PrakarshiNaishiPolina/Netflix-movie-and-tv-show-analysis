@@ -60,6 +60,6 @@ plot4<-netflix %>%
   labs(title = "Top 10 Genres on Netflix", x = "Genre", y = "Count") +
   theme_minimal()
 
-ggsave("top 10 genres.png",plot=plot3,width=6,height=4,dpi=300)
+ggsave("top 10 genres.png",plot=plot4,width=6,height=4,dpi=300)
 
 
